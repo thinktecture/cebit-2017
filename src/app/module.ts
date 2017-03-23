@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, NgZone} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserXhr, HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
@@ -52,7 +52,7 @@ import {CameraService, cameraServiceFactory} from './services/camera';
     DesktopIntegrationService,
     { provide: BrowserXhr, useClass: NgProgressCustomBrowserXhr },
     {
-      provide: CameraService, useFactory: cameraServiceFactory, deps: [PlatformService]
+      provide: CameraService, useFactory: cameraServiceFactory, deps: [PlatformService, NgZone]
     }
   ]
 })

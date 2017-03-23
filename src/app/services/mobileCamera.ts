@@ -1,9 +1,13 @@
 import {Observable, Observer} from 'rxjs/Rx';
 import {ICameraService} from './camera';
+import {NgZone} from '@angular/core';
 
 declare var window: any;
 
 export class MobileCameraService implements ICameraService {
+    constructor(private _zone: NgZone) {
+    }
+
     public getPhoto(): Observable<string> {
         return Observable.create((observer: Observer<string>) => {
             const camera = window.navigator.camera;
@@ -21,11 +25,15 @@ export class MobileCameraService implements ICameraService {
             };
 
             camera.getPicture(imageSrc => {
+              this._zone.run(() => {
                 observer.next('data:image/png;base64,' + imageSrc);
                 observer.complete();
+              });
             }, error => {
+              this._zone.run(() => {
                 observer.error(error);
                 observer.complete();
+              });
             }, options);
         });
     }

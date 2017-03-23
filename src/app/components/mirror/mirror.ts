@@ -1,4 +1,4 @@
-import {Component, NgZone} from '@angular/core';
+import {Component} from '@angular/core';
 import {CameraService} from '../../services/camera';
 
 @Component({
@@ -9,15 +9,13 @@ import {CameraService} from '../../services/camera';
 export class MirrorComponent {
   public photo: any;
 
-  constructor(private _camera: CameraService, private _zone: NgZone) {
+  constructor(private _camera: CameraService) {
   }
 
   public takePhoto() {
     this._camera.getPhoto()
       .subscribe(photo => {
-        this._zone.run(() => {
           this.photo = photo;
-        });
       });
   }
 }
